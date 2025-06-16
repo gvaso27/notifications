@@ -94,6 +94,9 @@ This project is a microservice-based backend application built with **Java (Spri
 ### ⚙️ Run
 ```bash
   mvn clean install
+```
+
+```bash
   mvn spring-boot:run
 ```
 
