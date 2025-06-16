@@ -1,23 +1,11 @@
 package com.example.notifications.service;
 
-import com.example.notifications.repository.AdminRepository;
-import com.example.notifications.repository.model.AdminEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.notifications.service.models.Admin;
 
-@Service
-public class AdminService {
+public interface AdminService {
 
-    @Autowired
-    private AdminRepository adminRepository;
+    String createAdmin(Admin admin);
 
-    public AdminEntity createAdmin(AdminEntity admin) {
-        try {
-            return adminRepository.save(admin);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
-    }
+    String authenticateAdmin(Admin admin);
 
 }

@@ -1,5 +1,6 @@
 package com.example.notifications.repository.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,10 @@ public class AdminEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false, length = 50)
     private String username;
+
+    @Column(nullable = false)
+    private String password;
 
 }
