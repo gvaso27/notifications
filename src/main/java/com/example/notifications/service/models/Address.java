@@ -6,12 +6,12 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Admin {
+public class Address {
 
     Long id;
 
-    String username;
+    AddressType addressType;
 
-    String password;
+    String addressValue;
 
 }

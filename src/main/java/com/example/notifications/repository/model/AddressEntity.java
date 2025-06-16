@@ -33,9 +33,6 @@ public class AddressEntity {
     @Column(nullable = false, length = 255)
     private String addressValue;
 
-    @Column(nullable = false)
-    private Boolean isActive = true;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;

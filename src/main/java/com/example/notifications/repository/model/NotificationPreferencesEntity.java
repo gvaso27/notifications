@@ -30,9 +30,6 @@ public class NotificationPreferencesEntity {
     @Column(nullable = false)
     private NotificationPreferenceTypeEntity notificationType;
 
-    @Column(nullable = false)
-    private Boolean optIn;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;
