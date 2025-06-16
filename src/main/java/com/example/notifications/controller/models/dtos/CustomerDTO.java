@@ -1,22 +1,21 @@
 package com.example.notifications.controller.models.dtos;
 
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomerDTO {
 
+    @Size(min = 4, message = "Name must be at least 3 characters")
     String name;
 
-    @Pattern(regexp = "EMAIL|SMS|POSTAL|INVALID", message = "Type must be either EMAIL, SMS, POSTAL or INVALID")
-    String addressType;
+    List<AddressDTO> addresses;
 
-    String addressValue;
-
-    @Pattern(regexp = "EMAIL|SMS|POSTAL", message = "Type must be either EMAIL, SMS or POSTAL")
-    String notificationPreferenceType;
+    List<NotificationPreferenceTypeDTO> notificationPreferenceTypes;
 
 }

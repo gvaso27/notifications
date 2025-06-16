@@ -6,4 +6,8 @@ public interface CustomerService {
 
     String createCustomer(Customer customer);
 
+    void updateCustomerName(Long id, String newName);
+
+    void deleteCustomer(Long id);
+
 }

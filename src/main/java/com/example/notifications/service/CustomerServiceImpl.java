@@ -1,16 +1,21 @@
 package com.example.notifications.service;
 
+import com.example.notifications.exception.MyErrorCode;
+import com.example.notifications.exception.MyException;
 import com.example.notifications.repository.CustomerRepository;
 import com.example.notifications.repository.model.AddressEntity;
 import com.example.notifications.repository.model.AddressTypeEntity;
 import com.example.notifications.repository.model.CustomerEntity;
 import com.example.notifications.repository.model.NotificationPreferenceTypeEntity;
 import com.example.notifications.repository.model.NotificationPreferencesEntity;
-import com.example.notifications.service.models.Address;
 import com.example.notifications.service.models.Customer;
-import com.example.notifications.service.models.NotificationPreferenceType;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -23,24 +28,58 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerEntity customerEntity = new CustomerEntity();
         customerEntity.setName(customer.getName());
 
-        Address address = customer.getAddresses().get(0);
-        AddressEntity addressEntity = new AddressEntity();
-        addressEntity.setAddressType(AddressTypeEntity.valueOf(address.getAddressType().name()));
-        addressEntity.setAddressValue(address.getAddressValue());
-        addressEntity.setCustomer(customerEntity);
+        List<AddressEntity> addressEntities = customer.getAddresses()
+                .stream()
+                .map(address -> {
+                    AddressEntity addressEntity = new AddressEntity();
+                    addressEntity.setAddressType(AddressTypeEntity.valueOf(address.getAddressType().name()));
+                    addressEntity.setAddressValue(address.getAddressValue());
+                    addressEntity.setCustomer(customerEntity);
+                    return addressEntity;
+                })
+                .collect(Collectors.toList());
 
-        customerEntity.getAddresses().add(addressEntity);
+        customerEntity.getAddresses().addAll(addressEntities);
 
-        NotificationPreferenceType notificationPreferenceType = customer.getNotificationPreferences().get(0);
-        NotificationPreferencesEntity notificationPreferencesEntity = new NotificationPreferencesEntity();
-        notificationPreferencesEntity.setNotificationType(NotificationPreferenceTypeEntity.valueOf(notificationPreferenceType.name()));
-        notificationPreferencesEntity.setCustomer(customerEntity);
+        List<NotificationPreferencesEntity> preferenceEntities = customer.getNotificationPreferences()
+                .stream()
+                .map(pref -> {
+                    NotificationPreferencesEntity preferenceEntity = new NotificationPreferencesEntity();
+                    preferenceEntity.setNotificationType(NotificationPreferenceTypeEntity.valueOf(pref.name()));
+                    preferenceEntity.setCustomer(customerEntity);
+                    return preferenceEntity;
+                })
+                .collect(Collectors.toList());
 
-        customerEntity.getPreferences().add(notificationPreferencesEntity);
+        customerEntity.getPreferences().addAll(preferenceEntities);
 
         customerRepository.save(customerEntity);
 
         return customerEntity.getId().toString();
+    }
+
+
+    @Override
+    public void updateCustomerName(Long id, String newName) {
+        Optional<CustomerEntity> customerEntityOptional = customerRepository.findById(id);
+        if (customerEntityOptional.isEmpty()) {
+            throw new MyException("customer with id " + id + " does not exist", MyErrorCode.NOT_FOUND);
+        }
+        CustomerEntity customerEntity = customerEntityOptional.get();
+
+        customerEntity.setName(newName);
+        customerRepository.save(customerEntity);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCustomer(Long id) {
+        Optional<CustomerEntity> customerEntityOptional = customerRepository.findById(id);
+        if (customerEntityOptional.isEmpty()) {
+            throw new MyException("Customer with id " + id + " does not exist", MyErrorCode.NOT_FOUND);
+        }
+
+        customerRepository.delete(customerEntityOptional.get());
     }
 
 }
