@@ -1,4 +1,4 @@
-package com.example.notifications.controller.models.DTOs;
+package com.example.notifications.controller.models.dtos;
 
 import lombok.AccessLevel;
 import lombok.Data;

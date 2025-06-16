@@ -1,6 +1,6 @@
 package com.example.notifications.controller;
 
-import com.example.notifications.controller.models.DTOs.CustomerDTO;
+import com.example.notifications.controller.models.dtos.CustomerDTO;
 import com.example.notifications.service.CustomerServiceImpl;
 import com.example.notifications.service.models.Address;
 import com.example.notifications.service.models.AddressType;

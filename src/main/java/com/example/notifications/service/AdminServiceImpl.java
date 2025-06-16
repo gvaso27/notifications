@@ -24,7 +24,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public String createAdmin(Admin admin) {
-        if(adminRepository.existsByUsername(admin.getUsername())) {
+        if (adminRepository.existsByUsername(admin.getUsername())) {
             throw new MyException("Username already exists", MyErrorCode.CONFLICT);
         }
 

@@ -1,9 +1,9 @@
-package com.example.notifications.controller.models.DTOs;
+package com.example.notifications.controller.models.dtos;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
-import jakarta.validation.constraints.Pattern;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)

@@ -1,7 +1,7 @@
 package com.example.notifications.controller;
 
-import com.example.notifications.controller.models.DTOs.AdminDTO;
 import com.example.notifications.controller.models.LogInAdminResponse;
+import com.example.notifications.controller.models.dtos.AdminDTO;
 import com.example.notifications.service.AdminServiceImpl;
 import com.example.notifications.service.models.Admin;
 import org.springframework.beans.factory.annotation.Autowired;

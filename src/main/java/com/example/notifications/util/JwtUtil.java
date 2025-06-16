@@ -8,18 +8,20 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
     private final SecretKey secretKey;
+
     private final long jwtExpiration;
 
     public JwtUtil(@Value("${jwt.secret:mySecretKey12345678901234567890}") String secret,
-                   @Value("${jwt.expiration:86400000}") long jwtExpiration) {
+                   @Value("${jwt.expiration:86400000}") long jwtExpiration1) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
-        this.jwtExpiration = jwtExpiration;
+        this.jwtExpiration = jwtExpiration1;
     }
 
     public String generateToken(String username) {

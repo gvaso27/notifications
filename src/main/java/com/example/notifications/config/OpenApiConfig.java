@@ -27,8 +27,8 @@ import org.springframework.context.annotation.Configuration;
                 )
         ),
         servers = {
-                @Server(url = "http://localhost:8081", description = "Local Development Server"),
-                @Server(url = "https://your-prod-url.com", description = "Production Server")
+            @Server(url = "http://localhost:8081", description = "Local Development Server"),
+            @Server(url = "https://your-prod-url.com", description = "Production Server")
         },
         security = @SecurityRequirement(name = "bearerAuth")
 )
