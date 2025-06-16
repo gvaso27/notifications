@@ -4,11 +4,12 @@ import com.example.notifications.controller.models.GetAllCustomersResponse;
 import com.example.notifications.controller.models.UpdateCustomerNameInput;
 import com.example.notifications.controller.models.dtos.AddressDTO;
 import com.example.notifications.controller.models.dtos.CustomerDTO;
-import com.example.notifications.controller.models.dtos.NotificationPreferenceTypeDTO;
+import com.example.notifications.controller.models.dtos.NotificationPreferenceDTO;
 import com.example.notifications.service.CustomerServiceImpl;
 import com.example.notifications.service.models.Address;
 import com.example.notifications.service.models.AddressType;
 import com.example.notifications.service.models.Customer;
+import com.example.notifications.service.models.NotificationPreference;
 import com.example.notifications.service.models.NotificationPreferenceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -44,15 +45,21 @@ public class CustomerController {
                 })
                 .collect(Collectors.toList());
 
-        List<NotificationPreferenceType> notificationPreferenceTypes = input.getNotificationPreferenceTypes()
+        List<NotificationPreference> notificationPreferences = input.getNotificationPreferences()
                 .stream()
-                .map(dto -> NotificationPreferenceType.valueOf(dto.getNotificationPreferenceType()))
+                .map(dto -> {
+                    NotificationPreference notificationPreference = new NotificationPreference();
+                    notificationPreference.setId(dto.getId());
+                    notificationPreference.setNotificationPreferenceType(NotificationPreferenceType
+                            .valueOf(dto.getNotificationPreferenceType()));
+                    return notificationPreference;
+                })
                 .collect(Collectors.toList());
 
         Customer customer = new Customer();
         customer.setName(input.getName());
         customer.setAddresses(addresses);
-        customer.setNotificationPreferences(notificationPreferenceTypes);
+        customer.setNotificationPreferences(notificationPreferences);
 
 
         return ResponseEntity.ok(customerService.createCustomer(customer));
@@ -96,11 +103,12 @@ public class CustomerController {
                                     .toList()
                     );
 
-                    dto.setNotificationPreferenceTypes(
+                    dto.setNotificationPreferences(
                             customer.getNotificationPreferences().stream()
                                     .map(pref -> {
-                                        NotificationPreferenceTypeDTO prefDTO = new NotificationPreferenceTypeDTO();
-                                        prefDTO.setNotificationPreferenceType(pref.name());
+                                        NotificationPreferenceDTO prefDTO = new NotificationPreferenceDTO();
+                                        prefDTO.setId(pref.getId());
+                                        prefDTO.setNotificationPreferenceType(pref.getNotificationPreferenceType().name());
                                         return prefDTO;
                                     })
                                     .toList()

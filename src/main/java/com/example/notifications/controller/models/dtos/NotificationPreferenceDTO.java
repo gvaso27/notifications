@@ -7,7 +7,9 @@ import lombok.experimental.FieldDefaults;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class NotificationPreferenceTypeDTO {
+public class NotificationPreferenceDTO {
+
+    Long id;
 
     @Pattern(regexp = "EMAIL|SMS|POSTAL", message = "Type must be either EMAIL, SMS or POSTAL")
     String notificationPreferenceType;

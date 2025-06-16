@@ -18,6 +18,6 @@ public class CustomerDTO {
 
     List<AddressDTO> addresses;
 
-    List<NotificationPreferenceTypeDTO> notificationPreferenceTypes;
+    List<NotificationPreferenceDTO> notificationPreferences;
 
 }

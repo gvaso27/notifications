@@ -2,7 +2,7 @@ package com.example.notifications.controller;
 
 import com.example.notifications.controller.models.AddAddressInput;
 import com.example.notifications.controller.models.dtos.AddressDTO;
-import com.example.notifications.service.AddressService;
+import com.example.notifications.service.AddressServiceImpl;
 import com.example.notifications.service.models.Address;
 import com.example.notifications.service.models.AddressType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AddressController {
 
     @Autowired
-    private AddressService addressService;
+    private AddressServiceImpl addressService;
 
     @PostMapping("/add")
     public ResponseEntity<String> addAddress(@Validated @RequestBody AddAddressInput input) {
@@ -29,7 +29,6 @@ public class AddressController {
         address.setAddressValue(input.getAddressDTO().getAddressValue());
         addressService.addAddress(address, input.getCustomerId());
         return ResponseEntity.ok("Successfully added address");
-
     }
 
     @PutMapping("/update")

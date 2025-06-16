@@ -4,18 +4,11 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
-
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Customer {
+public class NotificationPreference {
 
     Long id;
 
-    String name;
-
-    List<Address> addresses;
-
-    List<NotificationPreference> notificationPreferences;
-
+    NotificationPreferenceType notificationPreferenceType;
 }

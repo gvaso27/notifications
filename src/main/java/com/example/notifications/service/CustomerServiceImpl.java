@@ -11,6 +11,7 @@ import com.example.notifications.repository.model.NotificationPreferencesEntity;
 import com.example.notifications.service.models.Address;
 import com.example.notifications.service.models.AddressType;
 import com.example.notifications.service.models.Customer;
+import com.example.notifications.service.models.NotificationPreference;
 import com.example.notifications.service.models.NotificationPreferenceType;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,8 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream()
                 .map(pref -> {
                     NotificationPreferencesEntity preferenceEntity = new NotificationPreferencesEntity();
-                    preferenceEntity.setNotificationType(NotificationPreferenceTypeEntity.valueOf(pref.name()));
+                    preferenceEntity.setNotificationType(NotificationPreferenceTypeEntity
+                            .valueOf(pref.getNotificationPreferenceType().name()));
                     preferenceEntity.setCustomer(customerEntity);
                     return preferenceEntity;
                 })
@@ -108,9 +110,16 @@ public class CustomerServiceImpl implements CustomerService {
 
                     customer.setAddresses(addresses);
 
-                    List<NotificationPreferenceType> preferences = entity.getPreferences()
+                    List<NotificationPreference> preferences = entity.getPreferences()
                             .stream()
-                            .map(prefEntity -> NotificationPreferenceType.valueOf(prefEntity.getNotificationType().name()))
+                            .map(prefEntity -> {
+                                NotificationPreference notificationPreference = new NotificationPreference();
+                                notificationPreference.setId(prefEntity.getId());
+                                notificationPreference.setNotificationPreferenceType(
+                                        NotificationPreferenceType.valueOf(prefEntity.getNotificationType().name())
+                                );
+                                return notificationPreference;
+                            })
                             .collect(Collectors.toList());
 
                     customer.setNotificationPreferences(preferences);
