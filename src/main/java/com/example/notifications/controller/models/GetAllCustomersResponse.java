@@ -1,17 +1,14 @@
 package com.example.notifications.controller.models;
 
-import jakarta.validation.constraints.Size;
+import com.example.notifications.controller.models.dtos.CustomerDTO;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UpdateCustomerNameInput {
-
-    Long id;
-
-    @Size(min = 4, message = "Name must be at least 3 characters")
-    String newName;
-
+public class GetAllCustomersResponse {
+    List<CustomerDTO> customers;
 }

@@ -8,7 +8,10 @@ import com.example.notifications.repository.model.AddressTypeEntity;
 import com.example.notifications.repository.model.CustomerEntity;
 import com.example.notifications.repository.model.NotificationPreferenceTypeEntity;
 import com.example.notifications.repository.model.NotificationPreferencesEntity;
+import com.example.notifications.service.models.Address;
+import com.example.notifications.service.models.AddressType;
 import com.example.notifications.service.models.Customer;
+import com.example.notifications.service.models.NotificationPreferenceType;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,5 +84,41 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerRepository.delete(customerEntityOptional.get());
     }
+
+    @Override
+    public List<Customer> getAll() {
+        List<CustomerEntity> customerEntities = customerRepository.findAll();
+
+        return customerEntities.stream()
+                .map(entity -> {
+                    Customer customer = new Customer();
+                    customer.setId(entity.getId());
+                    customer.setName(entity.getName());
+
+                    List<Address> addresses = entity.getAddresses()
+                            .stream()
+                            .map(addressEntity -> {
+                                Address address = new Address();
+                                address.setId(addressEntity.getId());
+                                address.setAddressType(AddressType.valueOf(addressEntity.getAddressType().name()));
+                                address.setAddressValue(addressEntity.getAddressValue());
+                                return address;
+                            })
+                            .collect(Collectors.toList());
+
+                    customer.setAddresses(addresses);
+
+                    List<NotificationPreferenceType> preferences = entity.getPreferences()
+                            .stream()
+                            .map(prefEntity -> NotificationPreferenceType.valueOf(prefEntity.getNotificationType().name()))
+                            .collect(Collectors.toList());
+
+                    customer.setNotificationPreferences(preferences);
+
+                    return customer;
+                })
+                .collect(Collectors.toList());
+    }
+
 
 }

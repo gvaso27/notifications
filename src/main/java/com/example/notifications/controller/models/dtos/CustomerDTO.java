@@ -11,6 +11,8 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CustomerDTO {
 
+    Long id;
+
     @Size(min = 4, message = "Name must be at least 3 characters")
     String name;
 
