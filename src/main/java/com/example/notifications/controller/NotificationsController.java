@@ -10,6 +10,7 @@ import com.example.notifications.service.models.Notification;
 import com.example.notifications.service.models.NotificationStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,7 +29,7 @@ public class NotificationsController {
     private NotificationServiceImpl notificationService;
 
     @PostMapping("/send")
-    public ResponseEntity<?> sendNotification(@RequestBody NotificationDTO input) {
+    public ResponseEntity<?> sendNotification(@Validated @RequestBody NotificationDTO input) {
         Notification notification = new Notification();
         notification.setMessage(input.getMessage());
         Long id = Long.parseLong(input.getReceiverId());
@@ -38,7 +39,7 @@ public class NotificationsController {
     }
 
     @PutMapping("/update-status")
-    public ResponseEntity<?> updateStatus(@RequestBody UpdateStatusInput input) {
+    public ResponseEntity<?> updateStatus(@Validated @RequestBody UpdateStatusInput input) {
         Long id = Long.parseLong(input.getNotificationId());
         NotificationStatus newStatus = NotificationStatus.valueOf(input.getStatus());
         notificationService.updateStatus(id, newStatus);

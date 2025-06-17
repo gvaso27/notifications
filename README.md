@@ -58,7 +58,6 @@ This project is a microservice-based backend application built with **Java (Spri
 
 ### 🖥️ Frontend
 - **UI Technology:** HTML, CSS, JavaScript
-- **Templating Engine:** Thymeleaf (or other, e.g., React/Vue can be integrated)
 
 ### 🗃️ Database
 - **Type:** Relational

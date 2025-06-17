@@ -13,7 +13,7 @@ public class CustomerDTO {
 
     Long id;
 
-    @Size(min = 4, message = "Name must be at least 3 characters")
+    @Size(min = 3, message = "Name must be at least 3 characters")
     String name;
 
     List<AddressDTO> addresses;

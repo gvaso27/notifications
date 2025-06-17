@@ -9,6 +9,6 @@ import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class GetAllCustomersResponse {
+public class GetCustomersResponse {
     List<CustomerDTO> customers;
 }
