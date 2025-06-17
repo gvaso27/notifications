@@ -90,13 +90,17 @@ This project is a microservice-based backend application built with **Java (Spri
   cd notifications
 ```
 
-### ⚙️ Run
+### ⚙️ Run Back-End
 ```bash
+  cd notifications
   mvn clean install
+  mvn spring-boot:run
 ```
 
+### ⚙️ Run Front-End
 ```bash
-  mvn spring-boot:run
+  cd front-end
+  npx http-server -p 63342
 ```
 
 
