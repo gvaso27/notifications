@@ -79,9 +79,17 @@ This project is a microservice-based backend application built with **Java (Spri
 ## 🚀 Getting Started
 
 ### ✅ Prerequisites
-- Java 17
-- Maven
-- PostgreSQL
+
+Ensure you have the following installed on your development machine:
+
+- **Java 17** – Required for Spring Boot compatibility.
+- **Maven 3.6+** – To build and manage project dependencies.
+- **PostgreSQL 14+** – Used as the primary relational database.
+
+**Recommended tools:**
+- Postman or Swagger UI for API testing
+- IDE with Lombok support (e.g., IntelliJ IDEA)
+- Git (for version control)
 
 ### ⚙️ Setup
 
