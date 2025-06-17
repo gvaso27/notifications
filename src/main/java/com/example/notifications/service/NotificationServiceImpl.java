@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,5 +55,27 @@ public class NotificationServiceImpl implements NotificationService {
         NotificationEntity notificationEntity = notificationEntityOptional.get();
         notificationEntity.setStatus(NotificationStatusEntity.valueOf(newStatus.name()));
         notificationRepository.save(notificationEntity);
+    }
+
+    @Override
+    public List<Notification> getNotificationByStatus(NotificationStatus status) {
+        NotificationStatusEntity statusEntity = NotificationStatusEntity.valueOf(status.name());
+        List<NotificationEntity> notificationEntities =
+                notificationRepository.getNotificationEntityByStatus(statusEntity);
+        if (notificationEntities.isEmpty()) {
+            throw new MyException("Notification not found", MyErrorCode.NOT_FOUND);
+        }
+
+        return notificationEntities.stream()
+                .map(entity -> {
+                    Notification notification = new Notification();
+                    notification.setId(entity.getId());
+                    notification.setMessage(entity.getMessage());
+                    notification.setStatus(NotificationStatus.valueOf(entity.getStatus().name()));
+                    notification.setReceiverId(entity.getReceiverId());
+                    return notification;
+                })
+                .toList();
+
     }
 }
