@@ -955,7 +955,7 @@
                                 <div class="detail-title">📧 Addresses</div>
                                 ${customer.addresses.map(addr => `
                                     <div class="detail-item">
-                                        <span><strong>${addr.addressType}:</strong> ${addr.addressValue}</span>
+                                        <span><strong>${addr.addressType} (ID: ${addr.id}):</strong> ${addr.addressValue}</span>
                                         <button class="btn btn-danger small-btn" onclick="deleteAddress(${addr.id})">Delete</button>
                                     </div>
                                 `).join('')}
@@ -964,7 +964,7 @@
                                 <div class="detail-title">🔔 Preferences</div>
                                 ${customer.notificationPreferences.map(pref => `
                                     <div class="detail-item">
-                                        <span>${pref.notificationPreferenceType}</span>
+                                        <span><strong>(ID: ${pref.id}):</strong> ${pref.notificationPreferenceType}</span>
                                         <button class="btn btn-danger small-btn" onclick="deletePreference(${pref.id})">Delete</button>
                                     </div>
                                 `).join('')}
