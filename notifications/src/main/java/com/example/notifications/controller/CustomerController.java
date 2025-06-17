@@ -23,6 +23,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -77,11 +78,10 @@ public class CustomerController {
         return ResponseEntity.ok("Customer name updated successfully");
     }
 
-    @DeleteMapping("/remove_customer")
-    public ResponseEntity<?> removeCustomer(@RequestBody String customerId) {
-        Long id = Long.parseLong(customerId);
-        customerService.deleteCustomer(id);
-        return ResponseEntity.ok("Customer with id " + id + " deleted successfully.");
+    @DeleteMapping("/remove_customer/{customerId}")
+    public ResponseEntity<?> removeCustomer(@PathVariable Long customerId) {
+        customerService.deleteCustomer(customerId);
+        return ResponseEntity.ok("Customer with id " + customerId + " deleted successfully.");
     }
 
     @GetMapping

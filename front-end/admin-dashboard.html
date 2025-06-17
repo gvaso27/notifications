@@ -457,10 +457,9 @@
                         <div class="form-group">
                             <select class="preferenceType" required>
                                 <option value="">Select Preference</option>
-                                <option value="EMAIL_NOTIFICATIONS">Email Notifications</option>
-                                <option value="SMS_NOTIFICATIONS">SMS Notifications</option>
-                                <option value="PROMOTIONAL_EMAILS">Promotional Emails</option>
-                                <option value="SECURITY_ALERTS">Security Alerts</option>
+                                <option value="EMAIL">Email Notifications</option>
+                                <option value="SMS">SMS Notifications</option>
+                                <option value="POSTAL">Postal</option>
                             </select>
                         </div>
                     </div>
@@ -484,7 +483,7 @@
                             <option value="NAME">By Name</option>
                             <option value="ADDRESS_TYPE">By Address Type</option>
                             <option value="ADDRESS_VALUE">By Address Value</option>
-                            <option value="NOTIFICATION_PREFERENCE_TYPE">By Preference</option>
+                            <option value="PREFERENCE_TYPE">By Preference</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -507,7 +506,7 @@
         <!-- Notifications Tab -->
         <div id="notifications" class="tab-content">
             <h2 style="margin-bottom: 20px; color: #4a5568;">Notification Management</h2>
-            
+
             <!-- Send Notification Form -->
             <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                 <h3 style="margin-bottom: 20px; color: #667eea;">Send Notification</h3>
@@ -555,7 +554,7 @@
         <!-- Preferences Tab -->
         <div id="preferences" class="tab-content">
             <h2 style="margin-bottom: 20px; color: #4a5568;">Notification Preferences Management</h2>
-            
+
             <!-- Add Preference Form -->
             <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                 <h3 style="margin-bottom: 20px; color: #667eea;">Add Notification Preference</h3>
@@ -570,10 +569,9 @@
                             <label for="preferenceType">Preference Type</label>
                             <select id="preferenceType" required>
                                 <option value="">Select Preference</option>
-                                <option value="EMAIL_NOTIFICATIONS">Email Notifications</option>
-                                <option value="SMS_NOTIFICATIONS">SMS Notifications</option>
-                                <option value="PROMOTIONAL_EMAILS">Promotional Emails</option>
-                                <option value="SECURITY_ALERTS">Security Alerts</option>
+                                <option value="EMAIL">Email Notifications</option>
+                                <option value="SMS">SMS Notifications</option>
+                                <option value="POSTAL">Postal</option>
                             </select>
                         </div>
                     </div>
@@ -602,7 +600,7 @@
         <!-- Addresses Tab -->
         <div id="addresses" class="tab-content">
             <h2 style="margin-bottom: 20px; color: #4a5568;">Address Management</h2>
-            
+
             <!-- Add Address Form -->
             <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
                 <h3 style="margin-bottom: 20px; color: #667eea;">Add Address to Customer</h3>
@@ -671,7 +669,7 @@
             // Check if user is already logged in
             const savedToken = localStorage.getItem('adminToken');
             const savedUsername = localStorage.getItem('adminUsername');
-            
+
             if (savedToken && savedUsername) {
                 currentToken = savedToken;
                 currentUsername = savedUsername;
@@ -714,11 +712,11 @@
                     const data = await response.json();
                     currentToken = data.token;
                     currentUsername = data.username;
-                    
+
                     // Save to localStorage
                     localStorage.setItem('adminToken', currentToken);
                     localStorage.setItem('adminUsername', currentUsername);
-                    
+
                     showAlert('loginAlert', 'Login successful!', 'success');
                     setTimeout(() => {
                         showDashboard();
@@ -780,15 +778,15 @@
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
+
             // Remove active class from all nav tabs
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
+
             // Show selected tab content
             document.getElementById(tabName).classList.add('active');
-            
+
             // Add active class to clicked nav tab
             event.target.classList.add('active');
 
@@ -801,7 +799,7 @@
         // Customer management functions
         async function handleCreateCustomer(e) {
             e.preventDefault();
-            
+
             const customerName = document.getElementById('customerName').value;
             const addressRows = document.querySelectorAll('.address-row');
             const preferenceSelects = document.querySelectorAll('.preferenceType');
@@ -885,7 +883,7 @@
 
         async function handleSearch(e) {
             e.preventDefault();
-            
+
             const filterType = document.getElementById('filterType').value;
             const searchValue = document.getElementById('searchValue').value;
 
@@ -912,7 +910,7 @@
                 case 'ADDRESS_VALUE':
                     params.append('addressValue', searchValue);
                     break;
-                case 'NOTIFICATION_PREFERENCE_TYPE':
+                case 'PREFERENCE_TYPE':
                     params.append('notificationPreferenceType', searchValue);
                     break;
             }
@@ -1011,13 +1009,11 @@
             if (!confirm('Are you sure you want to delete this customer?')) return;
 
             try {
-                const response = await fetch(`${API_BASE}/customers/remove_customer`, {
+                const response = await fetch(`${API_BASE}/customers/remove_customer/${customerId}`, {
                     method: 'DELETE',
                     headers: {
-                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${currentToken}`
                     },
-                    body: JSON.stringify(customerId.toString())
                 });
 
                 if (response.ok) {
@@ -1262,13 +1258,11 @@
             if (!confirm('Are you sure you want to delete this preference?')) return;
 
             try {
-                const response = await fetch(`${API_BASE}/customers/notification_preferencies/delete_preference`, {
+                const response = await fetch(`${API_BASE}/customers/notification_preferencies/delete_preference/${preferenceId}`, {
                     method: 'DELETE',
                     headers: {
-                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${currentToken}`
                     },
-                    body: JSON.stringify(preferenceId.toString())
                 });
 
                 if (response.ok) {
@@ -1361,13 +1355,11 @@
             if (!confirm('Are you sure you want to delete this address?')) return;
 
             try {
-                const response = await fetch(`${API_BASE}/customers/addresses/delete_address`, {
+                const response = await fetch(`${API_BASE}/customers/addresses/delete_address/${addressId}`, {
                     method: 'DELETE',
                     headers: {
-                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${currentToken}`
                     },
-                    body: JSON.stringify(addressId.toString())
                 });
 
                 if (response.ok) {
@@ -1420,10 +1412,9 @@
                     <div style="flex: 1;">
                         <select class="preferenceType" required>
                             <option value="">Select Preference</option>
-                            <option value="EMAIL_NOTIFICATIONS">Email Notifications</option>
-                            <option value="SMS_NOTIFICATIONS">SMS Notifications</option>
-                            <option value="PROMOTIONAL_EMAILS">Promotional Emails</option>
-                            <option value="SECURITY_ALERTS">Security Alerts</option>
+                            <option value="EMAIL">Email Notifications</option>
+                                <option value="SMS">SMS Notifications</option>
+                                <option value="POSTAL">Postal</option>
                         </select>
                     </div>
                     <button type="button" class="btn btn-danger small-btn" onclick="removePreferenceField(this)">Remove</button>
@@ -1463,10 +1454,9 @@
                 <div class="form-group">
                     <select class="preferenceType" required>
                         <option value="">Select Preference</option>
-                        <option value="EMAIL_NOTIFICATIONS">Email Notifications</option>
-                        <option value="SMS_NOTIFICATIONS">SMS Notifications</option>
-                        <option value="PROMOTIONAL_EMAILS">Promotional Emails</option>
-                        <option value="SECURITY_ALERTS">Security Alerts</option>
+                        <option value="EMAIL">Email Notifications</option>
+                        <option value="SMS">SMS Notifications</option>
+                        <option value="POSTAL">Postal</option>
                     </select>
                 </div>
             `;

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,10 +42,9 @@ public class AddressController {
         return ResponseEntity.ok("Successfully updated address");
     }
 
-    @DeleteMapping("/delete_address")
-    public ResponseEntity<String> deleteAddress(@RequestBody String addressId) {
-        Long id = Long.parseLong(addressId);
-        addressService.deleteAddressById(id);
+    @DeleteMapping("/delete_address/{addressId}")
+    public ResponseEntity<String> deleteAddress(@PathVariable Long addressId) {
+        addressService.deleteAddressById(addressId);
         return ResponseEntity.ok("Successfully deleted address");
     }
 }

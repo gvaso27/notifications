@@ -1,4 +1,4 @@
-package com.example.notifications.config.security;
+package com.example.notifications.config;
 
 import com.example.notifications.util.JwtUtil;
 import jakarta.servlet.FilterChain;
