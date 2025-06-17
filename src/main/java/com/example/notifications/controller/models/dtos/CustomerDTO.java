@@ -20,4 +20,6 @@ public class CustomerDTO {
 
     List<NotificationPreferenceDTO> notificationPreferences;
 
+    List<NotificationDTO> notifications;
+
 }

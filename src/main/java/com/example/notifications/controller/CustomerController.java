@@ -4,6 +4,7 @@ import com.example.notifications.controller.models.GetAllCustomersResponse;
 import com.example.notifications.controller.models.UpdateCustomerNameInput;
 import com.example.notifications.controller.models.dtos.AddressDTO;
 import com.example.notifications.controller.models.dtos.CustomerDTO;
+import com.example.notifications.controller.models.dtos.NotificationDTO;
 import com.example.notifications.controller.models.dtos.NotificationPreferenceDTO;
 import com.example.notifications.service.CustomerServiceImpl;
 import com.example.notifications.service.models.Address;
@@ -110,6 +111,21 @@ public class CustomerController {
                                         prefDTO.setId(pref.getId());
                                         prefDTO.setNotificationPreferenceType(pref.getNotificationPreferenceType().name());
                                         return prefDTO;
+                                    })
+                                    .toList()
+                    );
+
+                    dto.setNotifications(
+                            customer.getNotifications().stream()
+                                    .map(notification -> {
+                                        NotificationDTO notificationDTO = new NotificationDTO();
+                                        notificationDTO.setId(String.valueOf(notification.getId()));
+                                        notificationDTO.setMessage(notification.getMessage());
+                                        notificationDTO.setReceiverId(String.valueOf(notification.getReceiverId()));
+                                        notificationDTO.setStatus(
+                                                notification.getStatus() != null ? notification.getStatus().name() : null
+                                        );
+                                        return notificationDTO;
                                     })
                                     .toList()
                     );

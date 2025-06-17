@@ -11,8 +11,10 @@ import com.example.notifications.repository.model.NotificationPreferencesEntity;
 import com.example.notifications.service.models.Address;
 import com.example.notifications.service.models.AddressType;
 import com.example.notifications.service.models.Customer;
+import com.example.notifications.service.models.Notification;
 import com.example.notifications.service.models.NotificationPreference;
 import com.example.notifications.service.models.NotificationPreferenceType;
+import com.example.notifications.service.models.NotificationStatus;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -123,6 +125,21 @@ public class CustomerServiceImpl implements CustomerService {
                             .collect(Collectors.toList());
 
                     customer.setNotificationPreferences(preferences);
+
+                    List<Notification> notifications = entity.getNotifications()
+                            .stream()
+                            .map(notificationEntity -> {
+                                Notification notification = new Notification();
+                                notification.setId(notificationEntity.getId());
+                                notification.setReceiverId(notificationEntity.getReceiverId());
+                                notification.setMessage(notificationEntity.getMessage());
+                                notification.setStatus(NotificationStatus
+                                        .valueOf(notificationEntity.getStatus().name()));
+                                return notification;
+                            })
+                            .collect(Collectors.toList());
+
+                    customer.setNotifications(notifications);
 
                     return customer;
                 })
